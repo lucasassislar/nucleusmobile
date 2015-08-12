@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectGuid>{5F152D77-826A-4AEB-8A10-B473321D240B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>NucleusMobile</RootNamespace>
+    <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
+    <AndroidUseLatestPlatformSdk>False</AndroidUseLatestPlatformSdk>
+    <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
+    <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
+    <AndroidResgenClass>Resource</AndroidResgenClass>
+    <AssemblyName>NucleusMobile</AssemblyName>
+    <TargetFrameworkVersion>v4.0.3</TargetFrameworkVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;ANDROID</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AndroidLinkMode>None</AndroidLinkMode>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
+    <DefineConstants>ANDROID</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ExifLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLLs\ExifLib.dll</HintPath>
+    </Reference>
+    <Reference Include="FormsViewGroup, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLLs\FormsViewGroup.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="Mono.Android" />
+    <Reference Include="Xamarin.Forms.Core, Version=1.3.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLLs\Xamarin.Forms.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Forms.Platform.Android, Version=1.3.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLLs\Xamarin.Forms.Platform.Android.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Forms.Xaml">
+      <HintPath>DLLs\Xamarin.Forms.Xaml.dll</HintPath>
+    </Reference>
+    <Reference Include="XLabs.Core, Version=2.0.5603.33985, Culture=neutral, PublicKeyToken=d65109b36e5040e4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLLs\XLabs.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="XLabs.Forms, Version=2.0.5603.33989, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLLs\XLabs.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="XLabs.Forms.Droid, Version=2.0.5603.34040, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLLs\XLabs.Forms.Droid.dll</HintPath>
+    </Reference>
+    <Reference Include="XLabs.Ioc, Version=2.0.5603.33985, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLLs\XLabs.Ioc.dll</HintPath>
+    </Reference>
+    <Reference Include="XLabs.Platform, Version=2.0.5603.33988, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLLs\XLabs.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="XLabs.Platform.Droid, Version=2.0.5603.34027, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLLs\XLabs.Platform.Droid.dll</HintPath>
+    </Reference>
+    <Reference Include="XLabs.Serialization, Version=2.0.5603.33985, Culture=neutral, PublicKeyToken=d65109b36e5040e4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLLs\XLabs.Serialization.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Core\Image\CustomImage.cs" />
+    <Compile Include="Core\Image\CustomImageRenderer.cs" />
+    <Compile Include="Core\Page\Transition\ICustomPageTransition.cs" />
+    <Compile Include="Core\Touch\TouchData.cs" />
+    <Compile Include="Core\Touch\TouchState.cs" />
+    <Compile Include="Manager\Core.cs" />
+    <Compile Include="Manager\Platform\PlatformManager.cs" />
+    <Compile Include="Manager\Resource\DownloadInstance.cs" />
+    <Compile Include="Manager\Resource\LoadType.cs" />
+    <Compile Include="Manager\Resource\Types\ImageResource.cs" />
+    <Compile Include="Manager\Resource\IResourceObject.cs" />
+    <Compile Include="Manager\Resource\ResourceManager.cs" />
+    <Compile Include="Manager\Resource\ResourceType.cs" />
+    <Compile Include="Manager\Resource\Types\StringResource.cs" />
+    <Compile Include="Core\Page\AddPageDelegate.cs" />
+    <Compile Include="Core\Page\CustomPage.cs" />
+    <Compile Include="Core\Page\CustomPageView.cs" />
+    <Compile Include="Core\Page\CustomPageViewRenderer.cs" />
+    <Compile Include="Core\Page\Transition\TransitionSlideData.cs" />
+    <Compile Include="Core\Page\Transition\TransitionSlideLeft.cs" />
+    <Compile Include="Platforms\WP8\MD5.cs" />
+    <Compile Include="Platforms\WP8\NameValueCollection.cs" />
+    <Compile Include="Platforms\WP8\Timer.cs" />
+    <Compile Include="Platforms\WP8\WebClientWP8.cs" />
+    <Compile Include="Util\Async\AsyncHelperT.cs" />
+    <Compile Include="Util\ButtonUtil.cs" />
+    <Compile Include="Util\Captcha.cs" />
+    <Compile Include="Util\DoubleUtil.cs" />
+    <Compile Include="Util\FloatUtil.cs" />
+    <Compile Include="Util\RectUtil.cs" />
+    <Compile Include="Util\StringUtil.cs" />
+    <Compile Include="Util\UserData.cs" />
+    <Compile Include="Platforms\Android\Util\AndroidUtil.cs" />
+    <Compile Include="Util\Async\AsyncHelper.cs" />
+    <Compile Include="Util\CryptoUtil.cs" />
+    <Compile Include="Util\DateUtil.cs" />
+    <Compile Include="Util\NetworkUtil.cs" />
+    <Compile Include="Util\WebUtil.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Platforms\Android\Widgets\" />
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
+</Project>
