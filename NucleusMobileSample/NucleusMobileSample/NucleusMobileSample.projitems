@@ -17,5 +17,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)App.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Library\Pages\MainPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Library\Pages\OnDemandPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Library\ScreenDescription.cs" />
   </ItemGroup>
 </Project>

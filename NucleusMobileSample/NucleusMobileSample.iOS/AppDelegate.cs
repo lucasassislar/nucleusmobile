@@ -4,6 +4,7 @@ using System.Linq;
 
 using Foundation;
 using UIKit;
+using Nucleus;
 
 namespace NucleusMobileSample.iOS
 {
@@ -22,6 +23,8 @@ namespace NucleusMobileSample.iOS
 		//
 		public override bool FinishedLaunching(UIApplication app, NSDictionary options)
 		{
+            Core.Instance.PlatformManager.SetIOS(this, app);
+
 			global::Xamarin.Forms.Forms.Init ();
 			LoadApplication (new NucleusMobileSample.App ());
 
