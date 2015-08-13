@@ -200,7 +200,12 @@ namespace Nucleus
                                         {
                                             Task<UIImage> task = Task.Run<UIImage>(delegate
                                             {
-                                                string path = to.path.ToString();
+                                                string path = to.path.OriginalString;
+                                                if (path.StartsWith(Uri.UriSchemeFile))
+                                                {
+                                                    path = path.Replace(Uri.UriSchemeFile + Uri.SchemeDelimiter, "");
+                                                }
+
                                                 UIImage image = UIImage.FromFile(path);
                                                 return image;
                                             });
@@ -261,7 +266,7 @@ namespace Nucleus
 #endif
                                                 if (down.store)
                                                 {
-                                                    resources.Add(down.path.ToString().ToLower(), res);
+                                                    resources.Add(down.path.OriginalString, res);
                                                 }
 
                                                 downloading.RemoveAt(i);
@@ -301,7 +306,7 @@ namespace Nucleus
 
                                         if (down.store)
                                         {
-                                            resources.Add(down.path.ToString().ToLower(), res);
+                                            resources.Add(down.path.OriginalString, res);
                                         }
 
                                         downloading.RemoveAt(i);
@@ -372,18 +377,16 @@ namespace Nucleus
             path = "android.resource://" + package + "/drawable/" + name;
 #endif
 
-            string lower = path.ToLower();
-
             lock (locker)
             {
                 IResourceObject res;
-                if (resources.TryGetValue(lower, out res))
+                if (resources.TryGetValue(path, out res))
                 {
                     if (res.IsDisposed())
                     {
                         res.Dispose();
 
-                        resources.Remove(lower);
+                        resources.Remove(path);
                     }
                     else
                     {
@@ -394,7 +397,7 @@ namespace Nucleus
                         return;
                     }
                 }
-                var download = IsDownloading(lower);
+                var download = IsDownloading(path);
                 if (download == null)
                 {
                     toDownload.Add(new DownloadingInstance(null, new Uri(path),
@@ -435,7 +438,7 @@ namespace Nucleus
         /// <param name="callback"></param>
         /// <param name="failure"></param>
         /// <param name="postData"></param>
-        public virtual void DownloadImage(Uri uri, Action<IResourceObject> callback, Action failure, NameValueCollection postData = null, bool store = true)
+        public virtual void DownloadImage(Uri uri, Action<IResourceObject> callback, Action failure = null, NameValueCollection postData = null, bool store = true)
         {
             Download(uri, callback, failure, ResourceType.Image, postData);
         }

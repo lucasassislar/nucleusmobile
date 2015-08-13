@@ -40,6 +40,9 @@
     <DefineConstants>IOS</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Core\Controls\AutoPositionLayout.cs" />
+    <Compile Include="Core\Controls\INukeView.cs" />
+    <Compile Include="Core\Controls\Position.cs" />
     <Compile Include="Core\Image\CustomImage.cs" />
     <Compile Include="Core\Image\CustomImageRenderer.cs" />
     <Compile Include="Core\Page\NPage.cs" />
@@ -77,6 +80,7 @@
     <Compile Include="Util\DateUtil.cs" />
     <Compile Include="Util\DoubleUtil.cs" />
     <Compile Include="Util\Enums\DeviceOrientation.cs" />
+    <Compile Include="Util\Enums\RelativePosition.cs" />
     <Compile Include="Util\FloatUtil.cs" />
     <Compile Include="Util\NetworkUtil.cs" />
     <Compile Include="Util\RectUtil.cs" />

@@ -12,7 +12,7 @@ using UIKit;
 
 namespace Nucleus
 {
-    public class CustomImage : Image
+    public class CustomImage : Image, INukeView
     {
         public ImageResource Resource;
 
@@ -72,15 +72,84 @@ namespace Nucleus
             set
             {
                 source = value;
-                Core.Instance.ResourceManager.LoadFile(value, ResourceType.Image, ReceiveImage, null, true);
+
+                if (!source.Contains(@"//")) // scheme
+                {
+                    source = Uri.UriSchemeFile + Uri.SchemeDelimiter + source;
+                }
+
+                Uri uri = new Uri(source);
+                if (uri.Scheme == Uri.UriSchemeFile)
+                {
+                    Core.Instance.ResourceManager.LoadFile(source, ResourceType.Image, ReceiveImage, null, true);
+                }
+                else
+                {
+                    Core.Instance.ResourceManager.DownloadImage(uri, ReceiveImage, null);
+                }
             }
         }
 
+        private Position pos;
+        public double X
+        {
+            get { return pos.X; }
+            set { pos.X = value; }
+        }
+        public double Y
+        {
+            get { return pos.Y; }
+            set { pos.Y = value; }
+        }
+        public double Width
+        {
+            get { return pos.Width; }
+            set { pos.Width = value; }
+        }
+        public double Height
+        {
+            get { return pos.Height; }
+            set { pos.Height = value; }
+        }
+        public RelativePosition XRel
+        {
+            get { return pos.XRel; }
+            set { pos.XRel = value; }
+        }
+        public RelativePosition YRel
+        {
+            get { return pos.YRel; }
+            set { pos.YRel = value; }
+        }
+        public RelativePosition WidthRel
+        {
+            get { return pos.WidthRel; }
+            set { pos.WidthRel = value; }
+        }
+        public RelativePosition HeightRel
+        {
+            get { return pos.HeightRel; }
+            set { pos.HeightRel = value; }
+        }
+
+
+        public CustomImage()
+        {
+#if IOS
+            base.Source = "pixel.png";
+#endif
+        }
 
         private void UpdateImgView()
         {
+            if (Resource == null)
+            {
+                return;
+            }
+
+            bool isDisposed = Resource.IsDisposed();
 #if ANDROID
-            if (imgView != null && Bitmap != null && !Resource.IsDisposed())
+            if (imgView != null && Bitmap != null && !isDisposed)
             {
                 Core.Instance.PlatformManager.RunOnUIThread(delegate
                 {
@@ -88,7 +157,7 @@ namespace Nucleus
                 });
             }
 #elif IOS
-            if (imgView != null && image != null && !Resource.IsDisposed())
+            if (imgView != null && image != null && !isDisposed)
             {
                 Core.Instance.PlatformManager.RunOnUIThread(delegate
                 {
@@ -99,6 +168,8 @@ namespace Nucleus
 
         }
 
+        public event Action<CustomImage> ReceivedImage;
+
         private void ReceiveImage(IResourceObject resource)
         {
             Resource = (ImageResource)resource;
@@ -108,6 +179,11 @@ namespace Nucleus
 #elif IOS
             Image = Resource.Image;
 #endif
+
+            if (ReceivedImage != null)
+            {
+                ReceivedImage(this);
+            }
         }
 
         public new string Source

@@ -14,6 +14,7 @@ using Android.Widget;
 using Android.Graphics;
 #elif IOS
 using UIKit;
+using Foundation;
 #endif
 
 namespace Nucleus
@@ -46,7 +47,9 @@ namespace Nucleus
 
         public ImageResource(byte[] daa)
         {
-            imageStream = new MemoryStream(daa);
+            //this.imageStream = new MemoryStream(daa);
+            this.image = UIImage.LoadFromData(NSData.FromArray(daa));
+            int x = -1;
         }
 #if ANDROID
         public ImageResource(Bitmap bitmap)

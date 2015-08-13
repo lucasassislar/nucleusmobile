@@ -29,14 +29,25 @@ namespace Nucleus
 #elif IOS
         protected override void OnElementChanged(ElementChangedEventArgs<Xamarin.Forms.Image> e)
         {
-            if (e.NewElement is CustomImage)
+            base.OnElementChanged(e);
+            if (Element == null)
             {
-                CustomImage img = (CustomImage)e.NewElement;
-                UIImageView view = (UIImageView)this.NativeView;
-                img.ImageView = view;
+                return;
             }
 
-            base.OnElementChanged(e);
+            if (Control == null)
+            {
+                SetNativeControl(new UIImageView()
+                {
+                    ContentMode = UIViewContentMode.ScaleAspectFit,
+                    ClipsToBounds = true
+                });
+            }
+
+
+            UIImageView view = Control;
+            CustomImage img = (CustomImage)Element;
+            img.ImageView = view;
         }
 #endif
     }
