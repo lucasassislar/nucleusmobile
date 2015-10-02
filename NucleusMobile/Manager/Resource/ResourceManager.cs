@@ -8,6 +8,7 @@ using System.Net;
 using System.Collections.Specialized;
 using System.IO;
 using UIKit;
+using System.Diagnostics;
 
 #if ANDROID
 using Android.Graphics;
@@ -82,6 +83,14 @@ namespace Nucleus
             }
         }
 
+        public void Cancel()
+        {
+            for (int i = 0; i < downloading.Count; i++)
+            {
+                downloading[i].Task.Dispose();
+            }
+        }
+
 
         /// <summary>
         /// Disposes all resources loaded by this ResourceManager and frees all references
@@ -94,6 +103,11 @@ namespace Nucleus
             foreach (var res in resources)
             {
                 res.Value.Dispose();
+            }
+
+            for (int i = 0; i < downloading.Count; i++)
+            {
+                downloading[i].Task.Dispose();
             }
 
             resources.Clear();
@@ -336,6 +350,7 @@ namespace Nucleus
                 }
                 catch (Exception ex)
                 {
+                    Debug.WriteLine(ex.ToString());
                     if (ex is WebException)
                     {
                         WebException web = (WebException)ex;

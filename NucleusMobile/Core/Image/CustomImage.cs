@@ -184,6 +184,17 @@ namespace Nucleus
             {
                 ReceivedImage(this);
             }
+
+            Element el = this.Parent;
+            while (el != null)
+            {
+                if (el is NPage)
+                {
+                    NPage page = (NPage)el;
+                    page.PositionElements();
+                }
+                el = el.Parent;
+            }
         }
 
         public new string Source

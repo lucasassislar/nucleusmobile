@@ -33,33 +33,35 @@ namespace NucleusMobileSample
             stack = new StackLayout();
             stack.Orientation = StackOrientation.Vertical;
             scroll.Content = stack;
-            // Pos(scroll, stack, 0, RelativePosition.None, 0, RelativePosition.None, 1, RelativePosition.ScreenWidth, 1, RelativePosition.ScreenHeight);
-        }
-
-        public override void PositionElements(double width, double height)
-        {
-            base.PositionElements(width, height);
         }
 
         public override void LoadContent()
         {
             base.LoadContent();
 
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < images.Length; i++)
             {
                 string img = images[i];
+                img = "print.png";
+
                 CustomImage image = new CustomImage();
                 image.Source = img;
-                image.ReceivedImage += delegate
-                {
-                    AddView(stack, image, 0, RelativePosition.None,
-                           0, RelativePosition.None,
-                           1, RelativePosition.ScreenWidth,
-                           1, RelativePosition.None);
-                };
+                //image.ReceivedImage += delegate
+                //{
+                //    Core.Instance.PlatformManager.RunOnUIThread(delegate ()
+                //    {
+                        
+                //    });
+                //};
+
+                AddView(stack, image,
+                                   0, RelativePosition.None,
+                                   0, RelativePosition.None,
+                                   1, RelativePosition.ScreenWidth,
+                                   1, RelativePosition.None);
             }
 
-          
+
         }
     }
 }

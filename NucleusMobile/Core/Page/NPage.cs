@@ -40,6 +40,13 @@ namespace Nucleus
             }
         }
 
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+
+            Core.Instance.ResourceManager.Cancel();
+        }
+
         protected override void OnSizeAllocated(double width, double height)
         {
             base.OnSizeAllocated(width, height);
@@ -81,13 +88,12 @@ namespace Nucleus
 
         public void Pos(View view, double x, double y, double width, double height)
         {
-            AbsoluteLayout.SetLayoutBounds(view,
-                new Rectangle(x, y, width, height));
+            AbsoluteLayout.SetLayoutBounds(view, new Rectangle(x, y, width, height));
         }
 
-        public void Pos(View view, 
-            double x, RelativePosition xRel, 
-            double y, RelativePosition yRel, 
+        public void Pos(View view,
+            double x, RelativePosition xRel,
+            double y, RelativePosition yRel,
             double width, RelativePosition widthRel,
             double height, RelativePosition heightRel)
         {
@@ -140,13 +146,13 @@ namespace Nucleus
             }
         }
 
-        void view_SizeChanged(object sender, EventArgs e)
+        private void view_SizeChanged(object sender, EventArgs e)
         {
             Layout<View> view = (Layout<View>)sender;
             UpdateLayout(view);
         }
 
-        void UpdateLayout(Layout<View> layout)
+        private void UpdateLayout(Layout<View> layout)
         {
             for (int i = 0; i < layout.Children.Count; i++)
             {
@@ -180,6 +186,10 @@ namespace Nucleus
         {
         }
 
+        public virtual void PositionElements()
+        {
+            PositionElements(this.Width, this.Height);
+        }
         public virtual void PositionElements(double width, double height)
         {
             foreach (var pos in positions)
@@ -198,6 +208,11 @@ namespace Nucleus
                         Position.GetValue(p.Y, p.YRel),
                         Position.GetValue(p.Width, p.WidthRel),
                         Position.GetValue(p.Height, p.HeightRel)));
+
+            if (v is Layout<View>)
+            {
+                UpdateLayout((Layout<View>)v);
+            }
         }
         private void PositionElement(View v, INukeView p)
         {
@@ -207,6 +222,11 @@ namespace Nucleus
                         Position.GetValue(p.Y, p.YRel),
                         Position.GetValue(p.Width, p.WidthRel),
                         Position.GetValue(p.Height, p.HeightRel)));
+
+            if (v is Layout<View>)
+            {
+                UpdateLayout((Layout<View>)v);
+            }
         }
     }
 }
