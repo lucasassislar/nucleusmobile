@@ -48,8 +48,10 @@ namespace Nucleus
         public ImageResource(byte[] daa)
         {
             //this.imageStream = new MemoryStream(daa);
+#if IOS
             this.image = UIImage.LoadFromData(NSData.FromArray(daa));
             int x = -1;
+#endif
         }
 #if ANDROID
         public ImageResource(Bitmap bitmap)

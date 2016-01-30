@@ -94,9 +94,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Controls\AutoPositionLayout.cs" />
+    <Compile Include="Core\Controls\INukeView.cs" />
+    <Compile Include="Core\Controls\Position.cs" />
     <Compile Include="Core\Image\CustomImage.cs" />
     <Compile Include="Core\Image\CustomImageRenderer.cs" />
-    <Compile Include="Core\Page\Transition\ICustomPageTransition.cs" />
+    <Compile Include="Core\Page\NPage.cs" />
+    <Compile Include="Core\Page\Tests\AddPageDelegate.cs" />
+    <Compile Include="Core\Page\Tests\CustomPage.cs" />
+    <Compile Include="Core\Page\Tests\CustomPageView.cs" />
+    <Compile Include="Core\Page\Tests\CustomPageViewRenderer.cs" />
+    <Compile Include="Core\Page\Tests\Transition\ICustomPageTransition.cs" />
+    <Compile Include="Core\Page\Tests\Transition\TransitionSlideData.cs" />
+    <Compile Include="Core\Page\Tests\Transition\TransitionSlideLeft.cs" />
     <Compile Include="Core\Touch\TouchData.cs" />
     <Compile Include="Core\Touch\TouchState.cs" />
     <Compile Include="Manager\Core.cs" />
@@ -108,12 +118,6 @@
     <Compile Include="Manager\Resource\ResourceManager.cs" />
     <Compile Include="Manager\Resource\ResourceType.cs" />
     <Compile Include="Manager\Resource\Types\StringResource.cs" />
-    <Compile Include="Core\Page\AddPageDelegate.cs" />
-    <Compile Include="Core\Page\CustomPage.cs" />
-    <Compile Include="Core\Page\CustomPageView.cs" />
-    <Compile Include="Core\Page\CustomPageViewRenderer.cs" />
-    <Compile Include="Core\Page\Transition\TransitionSlideData.cs" />
-    <Compile Include="Core\Page\Transition\TransitionSlideLeft.cs" />
     <Compile Include="Platforms\WP8\MD5.cs" />
     <Compile Include="Platforms\WP8\NameValueCollection.cs" />
     <Compile Include="Platforms\WP8\Timer.cs" />
@@ -122,9 +126,10 @@
     <Compile Include="Util\ButtonUtil.cs" />
     <Compile Include="Util\Captcha.cs" />
     <Compile Include="Util\DoubleUtil.cs" />
+    <Compile Include="Util\Enums\DeviceOrientation.cs" />
+    <Compile Include="Util\Enums\RelativePosition.cs" />
     <Compile Include="Util\FloatUtil.cs" />
     <Compile Include="Util\RectUtil.cs" />
-    <Compile Include="Util\StringUtil.cs" />
     <Compile Include="Util\UserData.cs" />
     <Compile Include="Platforms\Android\Util\AndroidUtil.cs" />
     <Compile Include="Util\Async\AsyncHelper.cs" />
@@ -134,6 +139,7 @@
     <Compile Include="Util\WebUtil.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Core\Page\Transition\" />
     <Folder Include="Platforms\Android\Widgets\" />
     <Folder Include="Properties\" />
   </ItemGroup>

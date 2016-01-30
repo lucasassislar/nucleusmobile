@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Collections.Specialized;
 using System.IO;
-using UIKit;
 using System.Diagnostics;
 
 #if ANDROID
@@ -17,7 +16,7 @@ using Android;
 using Android.Content;
 using Android.Widget;
 #elif IOS
-
+using UIKit;
 #endif
 
 namespace Nucleus

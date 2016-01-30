@@ -20,11 +20,7 @@ namespace Nucleus
             var activity = Core.Instance.PlatformManager.Activity;
             var connectivityManager = (ConnectivityManager)activity.GetSystemService(Activity.ConnectivityService);
             var activeConnection = connectivityManager.ActiveNetworkInfo;
-            if ((activeConnection != null) && activeConnection.IsConnected)
-            {
-                // we are connected to a network
-                return true;
-            }
+            return ((activeConnection != null) && activeConnection.IsConnected);
 #elif IOS
             NetworkStatus internetStatus = Reachability.InternetConnectionStatus();
             return internetStatus != NetworkStatus.NotReachable;
