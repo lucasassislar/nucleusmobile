@@ -95,10 +95,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\Controls\AutoPositionLayout.cs" />
+    <Compile Include="Core\Controls\ImageButton\ImageButton.cs" />
     <Compile Include="Core\Controls\INukeView.cs" />
     <Compile Include="Core\Controls\Position.cs" />
-    <Compile Include="Core\Image\CustomImage.cs" />
-    <Compile Include="Core\Image\CustomImageRenderer.cs" />
+    <Compile Include="Core\Controls\Image\CustomImage.cs" />
+    <Compile Include="Core\Controls\Image\CustomImageRenderer.cs" />
     <Compile Include="Core\Page\NPage.cs" />
     <Compile Include="Core\Page\Tests\AddPageDelegate.cs" />
     <Compile Include="Core\Page\Tests\CustomPage.cs" />
@@ -122,6 +123,7 @@
     <Compile Include="Platforms\WP8\NameValueCollection.cs" />
     <Compile Include="Platforms\WP8\Timer.cs" />
     <Compile Include="Platforms\WP8\WebClientWP8.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\Async\AsyncHelperT.cs" />
     <Compile Include="Util\ButtonUtil.cs" />
     <Compile Include="Util\Captcha.cs" />
@@ -141,7 +143,6 @@
   <ItemGroup>
     <Folder Include="Core\Page\Transition\" />
     <Folder Include="Platforms\Android\Widgets\" />
-    <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
 </Project>

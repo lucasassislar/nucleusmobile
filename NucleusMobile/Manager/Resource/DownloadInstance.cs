@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,6 +20,7 @@ namespace Nucleus
         public ResourceType type;
         public LoadType dtype;
         public bool store;
+        public WebClient client;
 
         protected Task task;
         public Task Task
@@ -27,13 +29,13 @@ namespace Nucleus
             set { task = value; }
         }
 
-        protected List<Action<IResourceObject>> callbacks;
-        public List<Action<IResourceObject>> Callbacks
+        protected List<object> callbacks;
+        public List<object> Callbacks
         {
             get { return callbacks; }
         }
 
-        public DownloadingInstance(Task ts, Uri pt, List<Action<IResourceObject>> backs, List<Action> onFailure, NameValueCollection post,
+        public DownloadingInstance(Task ts, Uri pt, List<object> backs, List<Action> onFailure, NameValueCollection post,
              ResourceType type, LoadType dtype, bool store)
         {
             path = pt;

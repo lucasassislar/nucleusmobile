@@ -93,6 +93,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Properties\AndroidManifest.xml" />
+    <AndroidResource Include="Resources\Drawable\distro.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\NucleusMobile\NucleusMobile.Android.csproj">
+      <Project>{5f152d77-826a-4aeb-8a10-b473321d240b}</Project>
+      <Name>NucleusMobile.Android</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="..\NucleusMobileSample\NucleusMobileSample.projitems" Label="Shared" Condition="Exists('..\NucleusMobileSample\NucleusMobileSample.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

@@ -2,22 +2,86 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Xamarin.Forms;
 
 namespace Nucleus
 {
     public struct Position
     {
-        public double X { get; set; }
-        public RelativePosition XRel { get; set; }
+        private double x;
+        private double y;
+        private double width;
+        private double height;
 
-        public double Y { get; set; }
-        public RelativePosition YRel { get; set; }
+        private RelativePosition yRel;
+        private RelativePosition xRel;
+        private RelativePosition widthRel;
+        private RelativePosition heightRel;
 
-        public double Width { get; set; }
-        public RelativePosition WidthRel { get; set; }
+        public RelativePosition XRel
+        {
+            get { return xRel; }
+            set { xRel = value; }
+        }
 
-        public double Height { get; set; }
-        public RelativePosition HeightRel { get; set; }
+        public RelativePosition YRel
+        {
+            get { return yRel; }
+            set { yRel = value; }
+        }
+
+        public RelativePosition WidthRel
+        {
+            get { return widthRel; }
+            set { widthRel = value; }
+        }
+        public RelativePosition HeightRel
+        {
+            get { return heightRel; }
+            set { heightRel = value; }
+        }
+
+        public double X
+        {
+            get { return x; }
+            set { x = value; }
+        }
+
+        public double Y
+        {
+            get { return y; }
+            set { y = value; }
+        }
+
+        public double Width
+        {
+            get { return width; }
+            set { width = value; }
+        }
+
+        public double Height
+        {
+            get { return height; }
+            set { height = value; }
+        }
+
+       
+
+        public Position(double xx, RelativePosition xxRel, 
+            double yy, RelativePosition yyRel, 
+            double wwidth, RelativePosition wwidthRel, 
+            double hheight, RelativePosition hheightRel)
+        {
+            x = xx;
+            y = yy;
+            width = wwidth;
+            height = hheight;
+
+            xRel = xxRel;
+            yRel = yyRel;
+            widthRel = wwidthRel;
+            heightRel = hheightRel;
+        }
 
         public static double GetValue(double val, RelativePosition rel)
         {
@@ -38,6 +102,38 @@ namespace Nucleus
                 default:
                     throw new NotImplementedException();
             }
+        }
+
+        public Rectangle GetRectangle()
+        {
+            Rectangle r = new Rectangle();
+            r.X = GetValue(X, XRel);
+            r.Y = GetValue(Y, YRel);
+            r.Width = GetValue(Width, WidthRel);
+            r.Height = GetValue(Height, HeightRel);
+            return r;
+        }
+
+        public Rectangle GetRectangle(double width, double height)
+        {
+            Rectangle r = new Rectangle();
+            r.X = GetValue(X, XRel);
+            r.Y = GetValue(Y, YRel);
+
+            if (WidthRel == RelativePosition.None &&
+                HeightRel != RelativePosition.None)
+            {
+
+            }
+            else if (WidthRel != RelativePosition.None &&
+                HeightRel == RelativePosition.None)
+            {
+                // height is relative to width
+                r.Width = GetValue(Width, WidthRel);
+                r.Height = (height / width) * r.Width;
+            }
+
+            return r;
         }
 
 

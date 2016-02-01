@@ -11,7 +11,6 @@ namespace NucleusMobileSample
         private string[] images = new string[]
         {
             "https://pbs.twimg.com/profile_images/471641515756769282/RDXWoY7W.png",
-            "http://comocriaraplicativos.com.br/wp-content/uploads/2015/02/Xamarin-Inc..zpoh_xamarin-logo-hexagon-blue.png",
             "https://components.xamarin.com/resources/icons/component-1854/screenshot1.jpg",
             "https://blog.xamarin.com/wp-content/uploads/2012/02/graph1.png",
             "https://techblog.betclicgroup.com/wp-content/uploads/2014/03/xamarinplatforms.jpg",
@@ -24,6 +23,9 @@ namespace NucleusMobileSample
 
         private ScrollView scroll;
         private StackLayout stack;
+
+        private Label header;
+        private Label bottom;
 
         public OnDemandPage()
         {
@@ -39,29 +41,34 @@ namespace NucleusMobileSample
         {
             base.LoadContent();
 
+            header = new Label();
+            header.Text = "Header";
+            AddView(header, 0, RelativePosition.None,
+                            0, RelativePosition.None,
+                            1, RelativePosition.ScreenWidth,
+                            10, RelativePosition.ScreenHeight);
+            
             for (int i = 0; i < images.Length; i++)
             {
                 string img = images[i];
-                img = "print.png";
 
                 CustomImage image = new CustomImage();
                 image.Source = img;
-                //image.ReceivedImage += delegate
-                //{
-                //    Core.Instance.PlatformManager.RunOnUIThread(delegate ()
-                //    {
-                        
-                //    });
-                //};
 
+                stack.Children.Add(image);
                 AddView(stack, image,
                                    0, RelativePosition.None,
                                    0, RelativePosition.None,
                                    1, RelativePosition.ScreenWidth,
-                                   1, RelativePosition.None);
+                                   0, RelativePosition.None);
             }
 
-
+            bottom = new Label();
+            bottom.Text = "Bottom";
+            AddView(bottom, 0, RelativePosition.None,
+                            0, RelativePosition.None,
+                            1, RelativePosition.ScreenWidth,
+                            30, RelativePosition.None);
         }
     }
 }

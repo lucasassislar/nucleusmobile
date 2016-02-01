@@ -47,8 +47,9 @@ namespace Nucleus
 
         public ImageResource(byte[] daa)
         {
-            //this.imageStream = new MemoryStream(daa);
-#if IOS
+#if ANDROID
+            this.bitmap = BitmapFactory.DecodeByteArray(daa, 0, daa.Length);
+#elif IOS
             this.image = UIImage.LoadFromData(NSData.FromArray(daa));
             int x = -1;
 #endif
@@ -64,6 +65,18 @@ namespace Nucleus
             this.image = image;
         }
 #endif
+
+        public void Rescale(int newWidth, int newHeight)
+        {
+#if ANDROID
+            Bitmap bmp = Bitmap.CreateScaledBitmap(this.bitmap, newWidth, newHeight, false);
+            this.bitmap.Dispose();
+            this.bitmap = bmp;
+
+#else
+            throw new NotImplementedException();
+#endif
+        }
 
         public void Dispose()
         {

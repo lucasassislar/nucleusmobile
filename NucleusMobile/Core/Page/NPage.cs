@@ -43,8 +43,6 @@ namespace Nucleus
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
-
-            Core.Instance.ResourceManager.Cancel();
         }
 
         protected override void OnSizeAllocated(double width, double height)
@@ -97,46 +95,24 @@ namespace Nucleus
             double width, RelativePosition widthRel,
             double height, RelativePosition heightRel)
         {
-            AbsoluteLayout.SetLayoutBounds((View)view,
-                new Rectangle(
-                    Position.GetValue(x, xRel),
-                    Position.GetValue(y, yRel),
-                    Position.GetValue(width, widthRel),
-                    Position.GetValue(height, heightRel)));
+            Position p = new Position(x, xRel, y, yRel, width, widthRel, height, heightRel);
+            Rectangle r = p.GetRectangle();
+            //AbsoluteLayout.SetLayoutBounds((View)view, r);
 
             if (view is INukeView)
             {
                 INukeView nuke = (INukeView)view;
-                nuke.X = x;
-                nuke.Y = y;
-                nuke.Width = width;
-                nuke.Height = height;
-
-                nuke.XRel = xRel;
-                nuke.YRel = yRel;
-                nuke.WidthRel = widthRel;
-                nuke.HeightRel = heightRel;
+                nuke.Position = p;
             }
             else
             {
-                Position nuke = new Position();
-                nuke.X = x;
-                nuke.Y = y;
-                nuke.Width = width;
-                nuke.Height = height;
-
-                nuke.XRel = xRel;
-                nuke.YRel = yRel;
-                nuke.WidthRel = widthRel;
-                nuke.HeightRel = heightRel;
-
                 if (positions.ContainsKey(view))
                 {
-                    positions[view] = nuke;
+                    positions[view] = p;
                 }
                 else
                 {
-                    positions.Add(view, nuke);
+                    positions.Add(view, p);
                 }
 
                 if (view is Layout<View>)
@@ -202,12 +178,11 @@ namespace Nucleus
 
         private void PositionElement(View v, Position p)
         {
-            AbsoluteLayout.SetLayoutBounds(v,
-                    new Rectangle(
-                        Position.GetValue(p.X, p.XRel),
-                        Position.GetValue(p.Y, p.YRel),
-                        Position.GetValue(p.Width, p.WidthRel),
-                        Position.GetValue(p.Height, p.HeightRel)));
+            Rectangle r = p.GetRectangle();
+            //v.WidthRequest = r.Width;
+            //v.HeightRequest = r.Height;
+            //v.X = p.X;
+            //v.Y = p.Y;
 
             if (v is Layout<View>)
             {
@@ -216,12 +191,12 @@ namespace Nucleus
         }
         private void PositionElement(View v, INukeView p)
         {
-            AbsoluteLayout.SetLayoutBounds(v,
-                    new Rectangle(
-                        Position.GetValue(p.X, p.XRel),
-                        Position.GetValue(p.Y, p.YRel),
-                        Position.GetValue(p.Width, p.WidthRel),
-                        Position.GetValue(p.Height, p.HeightRel)));
+            //AbsoluteLayout.SetLayoutBounds(v,
+            //        new Rectangle(
+            //            Position.GetValue(p.X, p.XRel),
+            //            Position.GetValue(p.Y, p.YRel),
+            //            Position.GetValue(p.Width, p.WidthRel),
+            //            Position.GetValue(p.Height, p.HeightRel)));
 
             if (v is Layout<View>)
             {

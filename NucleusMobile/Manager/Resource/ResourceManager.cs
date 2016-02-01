@@ -36,11 +36,6 @@ namespace Nucleus
         private List<DownloadingInstance> downloading;
         private List<DownloadingInstance> toDownload;
         private object locker = new object();
-#if WP8
-        private WebClientWP8 client;
-#else
-        private WebClient client;
-#endif
 
         public ResourceManager()
         {
@@ -52,12 +47,6 @@ namespace Nucleus
             resources = new Dictionary<string, IResourceObject>();
             downloading = new List<DownloadingInstance>();
             toDownload = new List<DownloadingInstance>();
-
-#if WP8
-            client = new WebClientWP8();
-#else
-            client = new WebClient();
-#endif
         }
 
 
@@ -97,8 +86,6 @@ namespace Nucleus
         public void Dispose()
         {
             // cancel everything and dispose all resources
-            client.Dispose();
-
             foreach (var res in resources)
             {
                 res.Value.Dispose();
@@ -116,9 +103,6 @@ namespace Nucleus
             resources = null;
             downloading = null;
             toDownload = null;
-
-            client = null;
-
         }
 
         /// <summary>
@@ -171,6 +155,7 @@ namespace Nucleus
                         case LoadType.Download:
                             {
                                 Task<byte[]> task;
+                                WebClient client = new WebClient();
                                 if (to.post == null)
                                 {
                                     task = client.DownloadDataTaskAsync(to.path);
@@ -179,6 +164,7 @@ namespace Nucleus
                                 {
                                     task = client.UploadValuesTaskAsync(to.path, to.post);
                                 }
+                                to.client = client;
                                 to.Task = task;
                                 downloading.Add(to);
                                 toDownload.RemoveAt(i);
@@ -194,7 +180,7 @@ namespace Nucleus
                                         {
                                             Task<Bitmap> task = Task.Run<Bitmap>(delegate
                                             {
-                                                string path = to.path.ToString();
+                                                string path = to.path.OriginalString;
                                                 Bitmap bitmap = Android.Provider.MediaStore.Images.Media.GetBitmap(Core.Instance.PlatformManager.Activity.ContentResolver, Android.Net.Uri.Parse(path));
                                                 return bitmap;
                                             });
@@ -286,7 +272,9 @@ namespace Nucleus
                                                 i--;
                                                 for (int j = 0; j < down.Callbacks.Count; j++)
                                                 {
-                                                    down.Callbacks[j](res);
+                                                    Delegate del = (Delegate)down.Callbacks[j];
+                                                    del.DynamicInvoke(res);
+                                                    //down.Callbacks[j](res);
                                                 }
                                                 break;
                                         }
@@ -295,6 +283,7 @@ namespace Nucleus
                                 break;
                             case LoadType.Download:
                                 {
+                                    down.client.Dispose();
                                     var task = (Task<byte[]>)down.Task;
                                     if (task.Status == TaskStatus.RanToCompletion)
                                     {
@@ -327,7 +316,9 @@ namespace Nucleus
 
                                         for (int j = 0; j < down.Callbacks.Count; j++)
                                         {
-                                            down.Callbacks[j](res);
+                                            Delegate del = (Delegate)down.Callbacks[j];
+                                            del.DynamicInvoke(res);
+                                            //down.Callbacks[j](res);
                                         }
                                     }
                                     else if (task.Status == TaskStatus.Canceled ||
@@ -370,7 +361,7 @@ namespace Nucleus
         /// <param name="callback"></param>
         /// <param name="failure"></param>
         /// <param name="store"></param>
-        public virtual void LoadImage(string path, Action<IResourceObject> callback, Action failure, bool store = true)
+        public virtual void LoadImage(string path, Action<ImageResource> callback, Action failure, bool store = true)
         {
             LoadFile(path, ResourceType.Image, callback, failure, store);
         }
@@ -383,7 +374,7 @@ namespace Nucleus
         /// <param name="callback"></param>
         /// <param name="failure"></param>
         /// <param name="store"></param>
-        public virtual void LoadFile(string path, ResourceType resource, Action<IResourceObject> callback, Action failure, bool store = true)
+        public virtual void LoadFile<T>(string path, ResourceType resource, Action<T> callback, Action failure, bool store = true) where T : IResourceObject
         {
 #if ANDROID
             string package = Core.Instance.PlatformManager.Activity.PackageName;
@@ -406,7 +397,7 @@ namespace Nucleus
                     {
                         if (callback != null)
                         {
-                            callback(res);
+                            callback((T)res);
                         }
                         return;
                     }
@@ -415,7 +406,7 @@ namespace Nucleus
                 if (download == null)
                 {
                     toDownload.Add(new DownloadingInstance(null, new Uri(path),
-                        callback == null ? new List<Action<IResourceObject>>() : new List<Action<IResourceObject>>() { callback },
+                        callback == null ? new List<object>() : new List<object>() { callback },
                         failure == null ? new List<Action>() : new List<Action>() { failure }, null, resource, LoadType.File, store));
                 }
                 else
@@ -440,7 +431,7 @@ namespace Nucleus
         /// <param name="failure"></param>
         /// <param name="postData"></param>
         /// <param name="store"></param>
-        public virtual void DownloadString(Uri uri, Action<IResourceObject> callback, Action failure, NameValueCollection postData = null, bool store = false)
+        public virtual void DownloadString(Uri uri, Action<StringResource> callback, Action failure, NameValueCollection postData = null, bool store = false)
         {
             Download(uri, callback, failure, ResourceType.String, postData, false);
         }
@@ -452,7 +443,7 @@ namespace Nucleus
         /// <param name="callback"></param>
         /// <param name="failure"></param>
         /// <param name="postData"></param>
-        public virtual void DownloadImage(Uri uri, Action<IResourceObject> callback, Action failure = null, NameValueCollection postData = null, bool store = true)
+        public virtual void DownloadImage(Uri uri, Action<ImageResource> callback, Action failure = null, NameValueCollection postData = null, bool store = true)
         {
             Download(uri, callback, failure, ResourceType.Image, postData);
         }
@@ -466,7 +457,7 @@ namespace Nucleus
         /// <param name="resType"></param>
         /// <param name="postData"></param>
         /// <param name="store"></param>
-        public virtual void Download(Uri uri, Action<IResourceObject> callback, Action failure, ResourceType resType, NameValueCollection postData = null, bool store = true)
+        public virtual void Download<T>(Uri uri, Action<T> callback, Action failure, ResourceType resType, NameValueCollection postData = null, bool store = true) where T : IResourceObject
         {
             string path = uri.ToString();
             string lower = path.ToLower();
@@ -484,7 +475,7 @@ namespace Nucleus
                     {
                         if (callback != null)
                         {
-                            callback(res);
+                            callback((T)res);
                         }
                         return;
                     }
@@ -495,7 +486,7 @@ namespace Nucleus
                 if (download == null)
                 {
                     toDownload.Add(new DownloadingInstance(null, uri,
-                        callback == null ? new List<Action<IResourceObject>>() : new List<Action<IResourceObject>>() { callback },
+                        callback == null ? new List<object>() : new List<object>() { callback },
                         failure == null ? new List<Action>() : new List<Action>() { failure }, postData, resType, LoadType.Download, store));
                 }
                 else
