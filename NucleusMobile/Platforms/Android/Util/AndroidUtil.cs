@@ -29,12 +29,61 @@ namespace Nucleus.Droid
             activity.StartActivityForResult(Intent.CreateChooser(imageIntent, message), 0);
         }
 
+        public static TouchEvent GetTouchEvent(MotionEvent e)
+        {
+            TouchState state;
+            switch (e.Action)
+            {
+                case  MotionEventActions.Down:
+                    state = TouchState.Down;
+                    break;
+                case MotionEventActions.Up:
+                    state = TouchState.Up;
+                    break;
+                case MotionEventActions.Move:
+                    state = TouchState.Move;
+                    break;
+                default:
+                    state = TouchState.None;
+                    break;
+            }
+            return new TouchEvent(state, e.GetX(), e.GetY());
+        }
+
+        public static double GetDevicePPIX(Resources res)
+        {
+            return res.DisplayMetrics.Xdpi;
+        }
+
+
+        public static double GetDevicePPIY(Resources res)
+        {
+            return res.DisplayMetrics.Ydpi;
+        }
+
+        public static double GetActualSize(Resources res, double value)
+        {
+            return res.DisplayMetrics.Density * value;
+        }
+
+
         public static double GetViewAreaHeight(Resources res)
         {
             if (res.Configuration.Orientation == Android.Content.Res.Orientation.Portrait)
             {
                 int k = res.GetIdentifier("status_bar_height", "dimen", "android");
-                return (res.DisplayMetrics.HeightPixels - res.GetDimensionPixelSize(k)) / res.DisplayMetrics.Density;
+                if (k > 0)
+                {
+                    k = res.GetDimensionPixelSize(k);
+                }
+
+                int l = res.GetIdentifier("navigation_bar_height", "dimen", "android");
+                if (l > 0)
+                {
+                    l = res.GetDimensionPixelSize(l);
+                }
+
+                return (res.DisplayMetrics.HeightPixels - k - l) / res.DisplayMetrics.Density;
             }
             else
             {

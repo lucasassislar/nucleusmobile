@@ -89,20 +89,36 @@ namespace Nucleus
             {
                 case RelativePosition.None:
                     return val;
-                case RelativePosition.ParentWidth:
-                    throw new NotImplementedException();
-                    break;
-                case RelativePosition.ParentHeight:
-                    throw new NotImplementedException();
-                    break;
                 case RelativePosition.ScreenWidth:
+                case RelativePosition.ParentWidth:
                     return Core.PcWidth(val);
                 case RelativePosition.ScreenHeight:
+                case RelativePosition.ParentHeight:
                     return Core.PcHeight(val);
                 default:
                     throw new NotImplementedException();
             }
         }
+
+        public static double GetValue(double val, RelativePosition rel, double parentWidth, double parentHeight)
+        {
+            switch (rel)
+            {
+                case RelativePosition.None:
+                    return val;
+                case RelativePosition.ScreenWidth:
+                    return Core.PcWidth(val);
+                case RelativePosition.ScreenHeight:
+                    return Core.PcHeight(val);
+                case RelativePosition.ParentWidth:
+                    return val * parentWidth;
+                case RelativePosition.ParentHeight:
+                    return val * parentHeight;
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
 
         public Rectangle GetRectangle()
         {
@@ -117,8 +133,8 @@ namespace Nucleus
         public Rectangle GetRectangle(double width, double height)
         {
             Rectangle r = new Rectangle();
-            r.X = GetValue(X, XRel);
-            r.Y = GetValue(Y, YRel);
+            r.X = GetValue(X, XRel, width, height);
+            r.Y = GetValue(Y, YRel, width, height);
 
             if (WidthRel == RelativePosition.None &&
                 HeightRel != RelativePosition.None)
@@ -129,7 +145,7 @@ namespace Nucleus
                 HeightRel == RelativePosition.None)
             {
                 // height is relative to width
-                r.Width = GetValue(Width, WidthRel);
+                r.Width = GetValue(Width, WidthRel, width, height);
                 r.Height = (height / width) * r.Width;
             }
 

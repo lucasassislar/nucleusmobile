@@ -7,6 +7,6 @@ namespace Nucleus
 {
     public enum TouchState
     {
-        Down, Up, Move
+        Down, Up, Move, None
     }
 }

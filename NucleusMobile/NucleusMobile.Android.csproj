@@ -18,6 +18,8 @@
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -48,6 +50,10 @@
     <Reference Include="FormsViewGroup, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>DLLs\FormsViewGroup.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\Newtonsoft.Json.8.0.2\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
@@ -101,6 +107,7 @@
     <Compile Include="Core\Controls\Image\CustomImage.cs" />
     <Compile Include="Core\Controls\Image\CustomImageRenderer.cs" />
     <Compile Include="Core\Page\NPage.cs" />
+    <Compile Include="Core\Page\NucleusContentPage.cs" />
     <Compile Include="Core\Page\Tests\AddPageDelegate.cs" />
     <Compile Include="Core\Page\Tests\CustomPage.cs" />
     <Compile Include="Core\Page\Tests\CustomPageView.cs" />
@@ -108,8 +115,10 @@
     <Compile Include="Core\Page\Tests\Transition\ICustomPageTransition.cs" />
     <Compile Include="Core\Page\Tests\Transition\TransitionSlideData.cs" />
     <Compile Include="Core\Page\Tests\Transition\TransitionSlideLeft.cs" />
+    <Compile Include="Core\TouchEvent.cs" />
     <Compile Include="Core\Touch\TouchData.cs" />
     <Compile Include="Core\Touch\TouchState.cs" />
+    <Compile Include="Core\User\UserData.cs" />
     <Compile Include="Manager\Core.cs" />
     <Compile Include="Manager\Platform\PlatformManager.cs" />
     <Compile Include="Manager\Resource\DownloadInstance.cs" />
@@ -119,6 +128,8 @@
     <Compile Include="Manager\Resource\ResourceManager.cs" />
     <Compile Include="Manager\Resource\ResourceType.cs" />
     <Compile Include="Manager\Resource\Types\StringResource.cs" />
+    <Compile Include="Platforms\Android\IAudioStream.cs" />
+    <Compile Include="Platforms\Android\Microphone.cs" />
     <Compile Include="Platforms\WP8\MD5.cs" />
     <Compile Include="Platforms\WP8\NameValueCollection.cs" />
     <Compile Include="Platforms\WP8\Timer.cs" />
@@ -132,6 +143,7 @@
     <Compile Include="Util\Enums\RelativePosition.cs" />
     <Compile Include="Util\FloatUtil.cs" />
     <Compile Include="Util\RectUtil.cs" />
+    <Compile Include="Util\TextMeter.cs" />
     <Compile Include="Util\UserData.cs" />
     <Compile Include="Platforms\Android\Util\AndroidUtil.cs" />
     <Compile Include="Util\Async\AsyncHelper.cs" />
@@ -144,5 +156,15 @@
     <Folder Include="Core\Page\Transition\" />
     <Folder Include="Platforms\Android\Widgets\" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
 </Project>

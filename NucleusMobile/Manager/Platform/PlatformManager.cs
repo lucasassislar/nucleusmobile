@@ -109,6 +109,24 @@ namespace Nucleus
 #endif
         }
 
+        public double GetDevicePPIX()
+        {
+#if ANDROID
+            return AndroidUtil.GetDevicePPIX(activity.Resources);
+#elif IOS
+
+#endif
+        }
+
+        public double GetDevicePPIY()
+        {
+#if ANDROID
+            return AndroidUtil.GetDevicePPIY(activity.Resources);
+#elif IOS
+
+#endif
+        }
+
         /// <summary>
         /// Gets the Raw screen width of the device (the actual resolution of the device in pixels)
         /// </summary>
@@ -166,6 +184,14 @@ namespace Nucleus
             return iOSUtil.GetRawViewHeight();
 #else
             throw new NotImplementedException();
+#endif
+        }
+
+        public double GetActualSize(double value)
+        {
+#if ANDROID
+            return AndroidUtil.GetActualSize(activity.Resources, value);
+#elif IOS
 #endif
         }
     }
